@@ -27,14 +27,11 @@ public class Particle {
     }
 
     public Particle(BoundedArea area) {
-        this.coordinate = new Coordinate(StdRandom.uniform(0.0, 1.0), StdRandom.uniform(0.0, 1.0));
-        while (!area.insideArea(this)) {
-            this.coordinate.x = StdRandom.uniform(0.0, 1.0);
-            this.coordinate.y = StdRandom.uniform(0.0, 1.0);
-        }
-        vx = StdRandom.uniform(-.005, 0.005);
-        vy = StdRandom.uniform(-.005, 0.005);
-        radius = 0.01;
+        this.coordinate = area.randomCoordinateInside();
+        final double scale = area.height();
+        vx = StdRandom.uniform(-.005 * scale, 0.005 * scale);
+        vy = StdRandom.uniform(-.005 * scale, 0.005 * scale);
+        radius = 0.01 * scale;
         mass = 0.5;
         color = Color.BLACK;
     }

@@ -12,10 +12,10 @@ public class LennardJonesPotentialSimulation {
     }
 
     public void start() {
-        view.draw(area, particles);
+        view.draw(particles);
         for (int i = 0; i < 10000; i++) {
             nextTick();
-            view.draw(area, particles);
+            view.draw(particles);
         }
     }
 

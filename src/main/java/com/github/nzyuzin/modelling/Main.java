@@ -35,12 +35,12 @@ public class Main {
         } else {
             particles = new Particle[numberOfParticles == null ? DEFAULT_NUMBER_OF_PARTICLES : numberOfParticles];
         }
-        BoundedArea area = new BoundedArea();
+        BoundedArea area = new BoundedArea(-2.0, 2.0, -2.0, 2.0);
         for (int i = 0; i < particles.length; i++) {
             particles[i] = new Particle(area);
         }
         LennardJonesPotentialSimulation simulation =
-                new LennardJonesPotentialSimulation(particles, new SimulationWindow(), area);
+                new LennardJonesPotentialSimulation(particles, new SimulationWindow(area), area);
         simulation.start();
     }
 

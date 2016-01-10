@@ -5,12 +5,18 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineSegment;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
+import edu.princeton.cs.algs4.StdRandom;
 
 public class BoundedArea {
-    private final Coordinate leftmostPoint = new Coordinate(0.0, 0.5);
-    private final Coordinate topPoint = new Coordinate(0.5, 0.75);
-    private final Coordinate rightmostPoint = new Coordinate(0.75, 0.5);
-    private final Coordinate bottomPoint = new Coordinate(0.25, 0.25);
+    private final double lx;
+    private final double rx;
+    private final double hy;
+    private final double ly;
+
+    private final Coordinate leftmostPoint = new Coordinate(-1.0, 0.0);
+    private final Coordinate topPoint = new Coordinate(0.0, 1.0);
+    private final Coordinate rightmostPoint = new Coordinate(1.0, -1.0);
+    private final Coordinate bottomPoint = new Coordinate(0.0, -2.0);
 
     private final LineSegment bottomLeftBound = new LineSegment(leftmostPoint, bottomPoint);
     private final LineSegment bottomRightBound = new LineSegment(bottomPoint, rightmostPoint);
@@ -22,7 +28,11 @@ public class BoundedArea {
     private final Polygon polygon;
     private final GeometryFactory geometryFactory = new GeometryFactory();
 
-    public BoundedArea() {
+    public BoundedArea(double lx, double rx, double ly, double hy) {
+        this.lx = lx;
+        this.rx = rx;
+        this.hy = hy;
+        this.ly = ly;
         this.polygon = geometryFactory.createPolygon(geometryFactory.createLinearRing(new Coordinate[]{
                 leftmostPoint, topPoint, rightmostPoint, bottomPoint, leftmostPoint
         }), null);
@@ -36,8 +46,29 @@ public class BoundedArea {
         return new double[]{leftmostPoint.y, topPoint.y, rightmostPoint.y, bottomPoint.y};
     }
 
+    public double width() {
+        return rx - lx;
+    }
+
+    public double height() {
+        return hy - ly;
+    }
+
+    public Coordinate randomCoordinateInside() {
+        Coordinate coordinate = new Coordinate();
+        do {
+            coordinate.x = StdRandom.uniform(lx, rx);
+            coordinate.y = StdRandom.uniform(ly, hy);
+        } while (!insideArea(coordinate));
+        return coordinate;
+    }
+
     public boolean insideArea(final Particle particle) {
-        return polygon.contains(geometryFactory.createPoint(new Coordinate(particle.x(), particle.y())));
+        return insideArea(new Coordinate(particle.x(), particle.y()));
+    }
+
+    private boolean insideArea(final Coordinate coordinate) {
+        return polygon.contains(geometryFactory.createPoint(coordinate));
     }
 
     public boolean nearBound(final Particle particle) {
