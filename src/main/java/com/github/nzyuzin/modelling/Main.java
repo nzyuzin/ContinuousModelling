@@ -31,7 +31,7 @@ public class Main {
     public void run() {
         final Particle[] particles;
         if (readFromStdIn) {
-            particles = readFromStdIn();
+            particles = particlesFromStdIn();
         } else {
             particles = new Particle[numberOfParticles == null ? DEFAULT_NUMBER_OF_PARTICLES : numberOfParticles];
         }
@@ -44,7 +44,7 @@ public class Main {
         simulation.start();
     }
 
-    private static Particle[] readFromStdIn() {
+    private static Particle[] particlesFromStdIn() {
         int N = StdIn.readInt();
         Particle[] result = new Particle[N];
         for (int i = 0; i < N; i++) {
