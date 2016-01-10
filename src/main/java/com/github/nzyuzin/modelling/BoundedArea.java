@@ -71,16 +71,6 @@ public class BoundedArea {
         return polygon.contains(geometryFactory.createPoint(coordinate));
     }
 
-    public boolean nearBound(final Particle particle) {
-        final Point point = geometryFactory.createPoint(new Coordinate(particle.x(), particle.y()));
-        return polygon.getBoundary().isWithinDistance(point, particle.radius());
-    }
-
-    public double distanceToBounds(Particle particle) {
-        final Point point = geometryFactory.createPoint(new Coordinate(particle.x(), particle.y()));
-        return polygon.getBoundary().distance(point);
-    }
-
     public Coordinate coordinateOnOppositeBound(Particle particle) {
         final Coordinate particleCoordinate = new Coordinate(particle.x(), particle.y());
         final LineSegment closestBound = closestBound(particleCoordinate);
