@@ -1,9 +1,9 @@
 package com.github.nzyuzin.modelling;
 
+import com.google.common.base.Preconditions;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineSegment;
-import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import edu.princeton.cs.algs4.StdRandom;
 
@@ -64,7 +64,7 @@ public class BoundedArea {
     }
 
     public boolean insideArea(final Particle particle) {
-        return insideArea(new Coordinate(particle.x(), particle.y()));
+        return insideArea(particle.coordinate());
     }
 
     private boolean insideArea(final Coordinate coordinate) {
@@ -72,15 +72,16 @@ public class BoundedArea {
     }
 
     public Coordinate coordinateOnOppositeBound(Particle particle) {
-        final Coordinate particleCoordinate = new Coordinate(particle.x(), particle.y());
-        final LineSegment closestBound = closestBound(particleCoordinate);
+        final LineSegment closestBound = closestBound(particle.coordinate());
         final LineSegment oppositeBound = oppositeLine(closestBound);
-        final double segmentFraction = closestBound.segmentFraction(particleCoordinate);
+        final double segmentFraction = closestBound.segmentFraction(particle.coordinate());
         return oppositeBound.pointAlong(segmentFraction);
     }
 
     private LineSegment closestBound(final Coordinate coordinate) {
-        double minDistance = Integer.MAX_VALUE;
+        Preconditions.checkArgument(!Double.isNaN(coordinate.x), "Invalid coordinate " + coordinate);
+        Preconditions.checkArgument(!Double.isNaN(coordinate.y), "Invalid coordinate " + coordinate);
+        double minDistance = Double.MAX_VALUE;
         LineSegment result = null;
         for (final LineSegment line : allBounds) {
             final double currentDistance = line.distance(coordinate);
@@ -88,6 +89,9 @@ public class BoundedArea {
                 minDistance = currentDistance;
                 result = line;
             }
+        }
+        if (result == null) {
+            throw new IllegalStateException("Can't compute closest bound for coordinate " + coordinate);
         }
         return result;
     }

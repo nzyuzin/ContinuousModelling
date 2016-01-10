@@ -6,7 +6,6 @@ import edu.princeton.cs.algs4.StdRandom;
 import java.awt.Color;
 
 public class Particle {
-
     // position
     private Coordinate coordinate;
 
@@ -26,14 +25,21 @@ public class Particle {
         this.color = color;
     }
 
-    public Particle(BoundedArea area) {
+    public Particle(BoundedArea area, double radius) {
         this.coordinate = area.randomCoordinateInside();
         final double scale = area.height();
-        vx = StdRandom.uniform(-.005 * scale, 0.005 * scale);
-        vy = StdRandom.uniform(-.005 * scale, 0.005 * scale);
-        radius = 0.01 * scale;
-        mass = 0.5;
-        color = Color.BLACK;
+        this.vx = StdRandom.uniform(-.005 * scale, 0.005 * scale);
+        this.vy = StdRandom.uniform(-.005 * scale, 0.005 * scale);
+        this.radius = radius;
+        this.mass = 1;
+        this.color = Color.getHSBColor((float) StdRandom.uniform(0.0, 1.0),
+                (float) StdRandom.uniform(0.5, 1.0),
+                (float) StdRandom.uniform(0.5, 1.0));
+    }
+
+    public void updateVelocity(double dvx, double dvy, double dt) {
+        this.vx += dvx * dt;
+        this.vy += dvy * dt;
     }
 
     public void move(BoundedArea area, double dt) {
@@ -42,6 +48,10 @@ public class Particle {
         if (!area.insideArea(this)) {
             this.coordinate = area.coordinateOnOppositeBound(this);
         }
+    }
+
+    public double distanceTo(Particle another) {
+        return this.coordinate.distance(another.coordinate);
     }
 
     public double x() {
@@ -56,11 +66,17 @@ public class Particle {
         return radius;
     }
 
-    public double mass() {
-        return mass;
-    }
-
     public Color color() {
         return color;
+    }
+
+    Coordinate coordinate() {
+        return coordinate;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("[coord: (%.2f, %.2f), velocity: (%.2f,%.2f)]",
+                this.coordinate.x, this.coordinate.y, this.vx, this. vy);
     }
 }

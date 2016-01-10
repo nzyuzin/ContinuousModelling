@@ -3,6 +3,7 @@ package com.github.nzyuzin.modelling;
 import edu.princeton.cs.algs4.StdDraw;
 
 import java.awt.Color;
+import java.util.List;
 
 public class SimulationWindow {
     private final BoundedArea area;
@@ -14,7 +15,7 @@ public class SimulationWindow {
         StdDraw.show(0);
     }
 
-    public void draw(Particle[] particles) {
+    public void draw(List<Particle> particles) {
         StdDraw.clear();
         drawAxis();
         for (Particle particle : particles) {
@@ -37,7 +38,9 @@ public class SimulationWindow {
     }
 
     private void drawParticle(final Particle particle) {
+        final Color previousColor = StdDraw.getPenColor();
         StdDraw.setPenColor(particle.color());
         StdDraw.filledCircle(particle.x(), particle.y(), particle.radius());
+        StdDraw.setPenColor(previousColor);
     }
 }
