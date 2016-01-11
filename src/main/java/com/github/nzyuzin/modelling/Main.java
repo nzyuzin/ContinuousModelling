@@ -23,7 +23,7 @@ public class Main {
     private Double affectionDistance;
 
     @Parameter(names = "--sigma", description = "Value of sigma in Lennard-Jones Potential computation")
-    private Double sigma = 0.05;
+    private Double sigma = 0.07;
 
     @Parameter(names = "--epsilon", description = "Value of epsilon in Lennard-Jones Potential computation")
     private Double epsilon = 0.000001;
