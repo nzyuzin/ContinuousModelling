@@ -55,8 +55,8 @@ public class LennardJonesPotentialSimulation {
 
     private double lennardJonesPotential(double dx, double dy) {
         double distance = dx * dx + dy * dy;
-        if (distance == 0.0) {
-            distance = epsilon;
+        if (distance < 0.001) {
+            distance = 0.001;
         }
         final double sixSigma = 6 * pow(sigma, 6) / pow(distance, 4);
         final double twelveSigma = -12 * pow(sigma, 12) / pow(distance, 7);

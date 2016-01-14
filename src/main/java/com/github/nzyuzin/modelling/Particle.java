@@ -27,9 +27,8 @@ public class Particle {
 
     public Particle(BoundedArea area, double radius) {
         this.coordinate = area.randomCoordinateInside();
-        final double scale = area.height();
-        this.vx = StdRandom.uniform(-.005 * scale, 0.005 * scale);
-        this.vy = StdRandom.uniform(-.005 * scale, 0.005 * scale);
+        this.vx = StdRandom.uniform(-.001, 0.001);
+        this.vy = StdRandom.uniform(-.001, 0.001);
         this.radius = radius;
         this.mass = 1;
         this.color = Color.getHSBColor((float) StdRandom.uniform(0.0, 1.0),
