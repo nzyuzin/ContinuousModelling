@@ -79,6 +79,9 @@ public class Main {
             int g = StdIn.readInt();
             int b = StdIn.readInt();
             char c = StdIn.readChar();
+            while (c == ' ' || c == '\t') {
+                c = StdIn.readChar();
+            }
             if (c != '\n') {
                 throw new IllegalArgumentException("Wrong input format: particles should be on separate lines " +
                         "with last symbol terminated by '\n'");
